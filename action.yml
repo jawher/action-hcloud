@@ -1,5 +1,5 @@
-name: 'Hetzner hcoud CLI'
-description: 'Use hcoud CLI to manage your Hetzner resources.'
+name: 'Hetzner hcloud CLI'
+description: 'Use hcloud CLI to manage your Hetzner resources.'
 author: 'Jawher Moussa'
 branding:
   icon: 'server'
