@@ -17,10 +17,17 @@ Here's an example which starts a `DEV1-S` instance in the `fr-par-1` region:
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
         with:
-          args: instance server create image=ubuntu_bionic type=DEV1-S name=workhorse tags.0=temp tags.1=workhorse --wait -o=json
+          args: server create --location=fsn1 --image=ubuntu-22.04 --ssh-key=mine --type=cx11 --name=server0
+    
+    - name: Describe new instance
+        uses: jawher/action-hcloud@v1.30.4
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+        with:
+          args: server describe server0 -o=json
 
-      - name: Get instance id and expose it in INSTANCE_ID env var
-        run: echo ::set-env name=INSTANCE_ID::$(cat "${GITHUB_WORKSPACE}/hcloud.output" | jq -r '.id')
+    - name: Expose new server IP in $INSTANCE_IP env var
+      run: echo INSTANCE_IP=$(cat "${GITHUB_WORKSPACE}/hcloud.output" | jq -er '.public_net.ipv4.ip') >> $GITHUB_ENV
 
       - name: Do something with the instance
         run: ...
@@ -30,7 +37,7 @@ Here's an example which starts a `DEV1-S` instance in the `fr-par-1` region:
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
         with:
-          args: instance server delete server-id=${{ env.INSTANCE_ID }} with-ip=true force-shutdown=true
+          args: server delete server0
 ```
 
 ### Secrets
