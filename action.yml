@@ -1,0 +1,9 @@
+name: 'Hetzner hcoud CLI'
+description: 'Use hcoud CLI to manage your Hetzner resources.'
+author: 'Jawher Moussa'
+branding:
+  icon: 'server'
+  color: 'red'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
