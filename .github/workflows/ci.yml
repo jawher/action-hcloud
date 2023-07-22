@@ -34,5 +34,16 @@ jobs:
         with:
           args: server list
 
-      - name: Check output
+      - name: Cat output
         run: cat "${GITHUB_WORKSPACE}/hcloud.output"
+
+      - name: Check output
+        run: |
+          for keyword in ID NAME STATUS
+          do
+            grep -q $keyword "${GITHUB_WORKSPACE}/hcloud.output"
+            if [ $? -ne 0 ]; then
+              echo "$keyword not found in output"
+              exit 1
+            fi
+          done
