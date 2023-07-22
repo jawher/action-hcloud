@@ -18,7 +18,7 @@ Here's an example which starts a `DEV1-S` instance in the `fr-par-1` region:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
         with:
           args: server create --location=fsn1 --image=ubuntu-22.04 --ssh-key=mine --type=cx11 --name=server0
-    
+
     - name: Describe new instance
         uses: jawher/action-hcloud@v1.30.4
         env:
@@ -55,7 +55,7 @@ jawher/action-hcloud@v{M.m.p}[-{a}]
 Where:
 
 * `{M.m.p}` is the `hcloud` CLI version: Major, Minor and patch
-* `{a}` is the action single version number: there may be multiple versions of this action for a single CLI version, e.g. `v2.6.2` uses the same hcloud CLI `2.4.4` as before, but adds support for the newly added region parameter.
+* `{a}` is an optional additional version for the action: there may be multiple versions of this action for a single CLI version, e.g. `v1.1.0-2` which would be a second release of the action but still use the same hcloud CLI `1.1.0` as before.
 
 ## License
 
