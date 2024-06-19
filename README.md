@@ -64,3 +64,6 @@ The Dockerfile and associated scripts and documentation in this project are rele
 ## Credits
 
 This action is heavily inspired from [DigitalOcean/action-doctl](https://github.com/digitalocean/action-doctl)
+
+## See Also
+I also maintain a similar action but for Scaleway, see [jawher/action-scw](https://github.com/jawher/action-scw)
