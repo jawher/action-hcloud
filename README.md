@@ -13,14 +13,14 @@ Here's an example which starts a `DEV1-S` instance in the `fr-par-1` region:
 
 ```yaml
     - name: Create a new instance
-        uses: jawher/action-hcloud@v1.57.0
+        uses: jawher/action-hcloud@v1.58.0
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
         with:
           args: server create --location=fsn1 --image=ubuntu-22.04 --ssh-key=mine --type=cx11 --name=server0
 
     - name: Describe new instance
-        uses: jawher/action-hcloud@v1.57.0
+        uses: jawher/action-hcloud@v1.58.0
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
         with:
@@ -33,7 +33,7 @@ Here's an example which starts a `DEV1-S` instance in the `fr-par-1` region:
         run: ...
 
       - name: Delete instance
-        uses: jawher/action-hcloud@v1.57.0
+        uses: jawher/action-hcloud@v1.58.0
         env:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
         with:
