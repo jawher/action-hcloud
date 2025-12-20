@@ -13,18 +13,18 @@ Here's an example which starts a `DEV1-S` instance in the `fr-par-1` region:
 
 ```yaml
     - name: Create a new instance
-        uses: jawher/action-hcloud@v1.58.0
-        env:
-          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
-        with:
-          args: server create --location=fsn1 --image=ubuntu-22.04 --ssh-key=mine --type=cx11 --name=server0
+      uses: jawher/action-hcloud@v1.58.0
+      env:
+        HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+      with:
+        args: server create --location=fsn1 --image=ubuntu-22.04 --ssh-key=mine --type=cx11 --name=server0
 
     - name: Describe new instance
-        uses: jawher/action-hcloud@v1.58.0
-        env:
-          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
-        with:
-          args: server describe server0 -o=json
+      uses: jawher/action-hcloud@v1.58.0
+      env:
+        HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+      with:
+        args: server describe server0 -o=json
 
     - name: Expose new server IP in $INSTANCE_IP env var
       run: echo INSTANCE_IP=$(cat "${GITHUB_WORKSPACE}/hcloud.output" | jq -er '.public_net.ipv4.ip') >> $GITHUB_ENV
