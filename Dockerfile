@@ -1,4 +1,4 @@
-FROM alpine:3.17 as downloader
+FROM alpine:3.24 as downloader
 
 ARG HCLOUD_VERSION=1.68.0
 
@@ -10,7 +10,7 @@ RUN curl -fSsL `curl -fSsL https://api.github.com/repos/hetznercloud/cli/release
     ls -la /tmp/ && \
     chmod +x /tmp/hcloud
 
-FROM alpine:3.17
+FROM alpine:3.24
 
 COPY --from=downloader /tmp/hcloud /hcloud
 

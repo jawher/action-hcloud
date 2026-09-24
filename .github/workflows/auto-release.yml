@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Read version
         id: version
@@ -20,7 +20,7 @@ jobs:
 
       - name: Check if release exists
         id: check_release
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9
         with:
           script: |
             const version = "${{ steps.version.outputs.version }}";
@@ -46,28 +46,39 @@ jobs:
       - name: Get previous tag
         if: steps.check_release.outputs.result == 'false'
         id: previous_tag
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9
         with:
           script: |
             const version = "${{ steps.version.outputs.version }}";
             const currentTag = `v${version}`;
 
             // Get all tags
-            const { data: tags } = await github.rest.repos.listTags({
+            const tags = await github.paginate(github.rest.repos.listTags, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               per_page: 100
             });
 
-            // Find the previous tag (first tag that's not the current one)
-            const previousTag = tags.find(tag => tag.name !== currentTag);
+            // listTags is not ordered by version: parse vX.Y.Z tags and pick
+            // the highest one lower than the current version
+            const parse = name => {
+              const m = /^v(\d+)\.(\d+)\.(\d+)$/.exec(name);
+              return m ? m.slice(1).map(Number) : null;
+            };
+            const compare = (a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2];
+            const current = parse(currentTag);
+
+            const previousTag = tags
+              .map(tag => ({ name: tag.name, version: parse(tag.name) }))
+              .filter(tag => tag.version && (!current || compare(tag.version, current) < 0))
+              .sort((a, b) => compare(b.version, a.version))[0];
 
             return previousTag ? previousTag.name : '';
           result-encoding: string
 
       - name: Create release
         if: steps.check_release.outputs.result == 'false'
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GH_API_PAT }}
           script: |
