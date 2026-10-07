@@ -1,6 +1,6 @@
 FROM alpine:3.17 as downloader
 
-ARG HCLOUD_VERSION=1.70.0
+ARG HCLOUD_VERSION=1.70.1
 
 RUN apk update &&       \
     apk add --no-cache curl jq
